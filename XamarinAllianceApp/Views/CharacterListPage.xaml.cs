@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinAllianceApp.Controllers;
+using XamarinAllianceApp.Models;
 
 namespace XamarinAllianceApp.Views
 {
@@ -25,6 +26,19 @@ namespace XamarinAllianceApp.Views
         }
 
         // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#pulltorefresh
+
+        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        {
+            var item = args.SelectedItem as Character;
+            if (item == null)
+                return;
+
+            await Navigation.PushAsync(new DetailPage(item));
+
+            // Manually deselect item
+            characterList.SelectedItem = null;
+        }
+
         public async void OnRefresh(object sender, EventArgs e)
         {
             var list = (ListView)sender;
